@@ -8,6 +8,10 @@
 
 WebClone is a powerful command-line tool that creates perfect clones of any website, downloading all HTML, CSS, JavaScript, images, and fonts while organizing everything intelligently.
 
+**Perfect for:** Learning web development, studying designs, creating prototypes, and building templates from static and client-side rendered websites.
+
+> **Note:** WebClone clones the frontend (HTML/CSS/JS). It works best with static sites and client-side apps (React, Vue, Next.js). Sites with heavy server-side rendering, databases, or CMS backends will clone the visual design but not backend functionality.
+
 ## ✨ Features
 
 - 🚀 **One-Command Cloning** - Clone any website with a single command
@@ -87,6 +91,47 @@ WebClone downloads and organizes:
 - ✅ **Fonts** - Web fonts and typography
 - ✅ **Icons** - SVGs and icon fonts
 
+## ⚠️ What WebClone Can and Cannot Clone
+
+### ✅ **Works Great With:**
+
+| Type | Examples | Why It Works |
+|------|----------|--------------|
+| 🎨 **Static Sites** | Landing pages, portfolios, marketing sites | Pure HTML/CSS/JS |
+| ⚛️ **Client-Side Apps** | React, Vue, Angular SPAs | Code runs in browser |
+| 📚 **Documentation** | GitBook, Docusaurus, MkDocs | Pre-rendered content |
+| 🎯 **Design Systems** | Component libraries, UI kits | Frontend-focused |
+| 🛍️ **Marketing Pages** | Product pages, company sites | Static content |
+
+**Best Results:** Sites like **Docker.com**, **Stripe.com**, **Vercel.com**, **Linear.app**
+
+### ❌ **Limited Support For:**
+
+| Type | Examples | What's Missing |
+|------|----------|----------------|
+| 🗄️ **CMS-Driven Sites** | WordPress, Drupal, Umbraco | Backend-generated content, databases |
+| 🔐 **Auth Systems** | Login/signup flows | Server-side authentication, sessions |
+| 💳 **Payment Processing** | Checkout pages | Backend payment APIs, security |
+| 📊 **Dynamic Dashboards** | Admin panels, analytics | Real-time data from APIs |
+| 🔌 **Server-Side Rendered** | PHP, ASP.NET, Ruby on Rails | Server logic, database queries |
+| 🌐 **API-Heavy Apps** | Social media feeds, live data | Backend API endpoints |
+
+**Result:** You'll get the visual shell/layout, but dynamic functionality won't work.
+
+### 💡 **What You CAN Use Partial Clones For:**
+
+Even when a site doesn't clone perfectly, it's still valuable for:
+- ✅ Studying design patterns and layouts
+- ✅ Learning CSS structures and animations
+- ✅ Extracting UI components (buttons, cards, navbars)
+- ✅ Getting color schemes and typography
+- ✅ Building static prototypes based on the design
+- ✅ Creating mockups for client presentations
+
+### 🎯 **Pro Tip:**
+
+**WebClone is perfect for frontend learning and prototyping!** If you need the backend functionality, you'll need access to the actual source code and database.
+
 ## 📂 Output Structure
 
 ```
@@ -163,6 +208,52 @@ Arguments:
   url                  URL of the website to clone
   output_directory     Optional: Custom output folder name
 ```
+
+## 🔧 Troubleshooting
+
+### "I see raw HTML when opening the cloned site"
+
+**Problem:** Modern websites with JavaScript won't work when opened directly (file://) due to browser security (CORS policy).
+
+**Solution:** Always use a local web server:
+
+```bash
+# Navigate to cloned folder
+cd your_cloned_site
+
+# Start a local server (Python)
+python3 -m http.server 8000
+
+# Or use PHP
+php -S localhost:8000
+
+# Or use Node.js
+npx http-server -p 8000
+
+# Then visit: http://localhost:8000
+```
+
+### "Some images or styles are missing"
+
+**Common causes:**
+- External CDN resources that failed to download
+- Dynamic content loaded via JavaScript
+- Resources blocked by the original site
+
+**What to check:**
+- Look for a `⚠️ X resources failed to download` message
+- Open browser DevTools (F12) → Console to see errors
+- Check if the original site requires authentication
+
+### "The site looks different from the original"
+
+**Possible reasons:**
+- Site uses server-side rendering (PHP, ASP.NET)
+- Content is loaded from a database/CMS
+- Site has A/B testing or personalization
+- Dynamic content based on user location/cookies
+
+**Best for:** Sites that render primarily in the browser (React, Vue, static HTML).
 
 ## 🎨 What Makes WebClone Special
 
