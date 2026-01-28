@@ -4,7 +4,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
-    name="webclone",
+    name="webclone-cli",
     version="1.0.0",
     author="Abdirahman Ahmed",
     author_email="contact@abdirahman.net",
