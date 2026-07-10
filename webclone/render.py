@@ -272,6 +272,7 @@ async def _fetch_rendered_async(
     capture_storage: bool = True,
     capture_iframes: bool = True,
     har_export: bool = True,
+    output_dir: str = ".",
 ) -> dict:
     """
     Rendered page capture with full runtime recording.
@@ -304,6 +305,18 @@ async def _fetch_rendered_async(
     fetch_responses: List[dict] = []
     fw_routes: List[str] = []
 
+    async def _capture_json_response(response, url, ct):
+        try:
+            body = await response.text()
+            fetch_responses.append({
+                "url": url,
+                "status": response.status,
+                "type": ct,
+                "body": body[:100000] if body else "",
+            })
+        except Exception:
+            pass
+
     def on_response(response) -> None:
         try:
             u = response.url
@@ -314,16 +327,7 @@ async def _fetch_rendered_async(
             # Record fetch/XHR JSON responses
             if "json" in ct and "application/" in ct:
                 seen_urls.add(u)
-                try:
-                    body = response.text()
-                    fetch_responses.append({
-                        "url": u,
-                        "status": response.status,
-                        "type": ct,
-                        "body": body[:100000] if body else "",
-                    })
-                except Exception:
-                    pass
+                asyncio.ensure_future(_capture_json_response(response, u, ct))
 
             # Record framework routes
             if _is_framework_route(u):
@@ -348,9 +352,10 @@ async def _fetch_rendered_async(
                 passes = [("dark", True)]
 
             for color_scheme, use_dark_script in passes:
+                har_path = os.path.join(output_dir, "network.har") if har_export and use_dark_script else None
                 context = await browser.new_context(
                     color_scheme=color_scheme,
-                    record_har_path="network.har" if har_export and use_dark_script else None,
+                    record_har_path=har_path,
                 )
                 if use_dark_script:
                     await context.add_init_script(_DARK_INIT_SCRIPT)
@@ -444,9 +449,9 @@ async def _fetch_rendered_async(
                     # HAR export
                     if har_export:
                         try:
-                            har_path = os.path.join(os.getcwd(), "network.har")
-                            if os.path.exists(har_path):
-                                with open(har_path, "r") as f:
+                            read_har_path = os.path.join(output_dir, "network.har")
+                            if os.path.exists(read_har_path):
+                                with open(read_har_path, "r") as f:
                                     result["har"] = json.load(f)
                         except Exception:
                             pass
@@ -467,7 +472,9 @@ async def _fetch_rendered_async(
 
 def fetch_rendered_html(
     url: str,
+    *,
+    output_dir: str = ".",
     **kwargs,
 ) -> dict:
     """Sync entry point. Returns dict with full capture data."""
-    return asyncio.run(_fetch_rendered_async(url, **kwargs))
+    return asyncio.run(_fetch_rendered_async(url, output_dir=output_dir, **kwargs))

@@ -601,7 +601,7 @@ class UniversalWebsiteCloner:
             from .render import fetch_rendered_html
 
             print(f"Rendering {url} in browser (Playwright, full runtime capture)…")
-            capture = fetch_rendered_html(url)
+            capture = fetch_rendered_html(url, output_dir=self.output_dir)
             html = capture.get("html")
             if html:
                 print("✓ Got rendered page (dark + light + fetch recording + SW + storage)")
