@@ -1,4 +1,4 @@
-# 🌐 WebClone
+# 🌐 WebClone v2.1.0
 
 > Clone any website in seconds. Perfect for learning, prototyping, and building.
 
