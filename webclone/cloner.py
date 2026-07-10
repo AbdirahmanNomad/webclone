@@ -502,6 +502,77 @@ class UniversalWebsiteCloner:
                 chunks.append(src)
         return chunks
 
+    def _save_fetch_responses(self, fetch_log):
+        """Save recorded fetch/XHR responses as JSON files for offline use."""
+        if not fetch_log:
+            return
+        api_dir = os.path.join(self.output_dir, "data")
+        os.makedirs(api_dir, exist_ok=True)
+        saved = 0
+        for entry in fetch_log:
+            try:
+                url = entry.get("url", "")
+                body = entry.get("body", "")
+                if not body or len(body) < 10:
+                    continue
+                parsed = urlparse(url)
+                fname = parsed.path.strip("/").replace("/", "_") or "index"
+                fname = re.sub(r'[<>:"|?*]', '_', fname)[:100]
+                path = os.path.join(api_dir, fname + ".json")
+                try:
+                    data = json.loads(body)
+                    with open(path, "w") as f:
+                        json.dump(data, f, indent=2)
+                    saved += 1
+                except (json.JSONDecodeError, ValueError):
+                    pass
+            except Exception:
+                pass
+        if saved:
+            print(f"  📡 Saved {saved} API responses to data/")
+
+    def _save_framework_routes(self, framework_routes):
+        """Download framework-specific assets (sw.js, workbox, _payload, etc.)."""
+        if not framework_routes:
+            return
+        count = 0
+        for route in framework_routes:
+            try:
+                resp = self.session.get(route, timeout=15)
+                if resp.status_code == 200:
+                    parsed = urlparse(route)
+                    fpath = parsed.path.lstrip("/")
+                    full = os.path.join(self.output_dir, fpath)
+                    os.makedirs(os.path.dirname(full) or ".", exist_ok=True)
+                    with open(full, "wb" if "octet" in (resp.headers.get("content-type", "") or "") else "w") as f:
+                        if "octet" in (resp.headers.get("content-type", "") or ""):
+                            f.write(resp.content)
+                        else:
+                            f.write(resp.text)
+                    count += 1
+            except Exception:
+                pass
+        if count:
+            print(f"  🧩 Saved {count} framework routes")
+
+    def _save_browser_storage(self, storage):
+        """Export localStorage, sessionStorage, cookies to JSON."""
+        if not storage:
+            return
+        path = os.path.join(self.output_dir, "browser-storage.json")
+        with open(path, "w") as f:
+            json.dump(storage, f, indent=2, default=str)
+        print("  💾 Browser storage exported")
+
+    def _save_har(self, har_data):
+        """Save HAR file for debugging."""
+        if not har_data:
+            return
+        path = os.path.join(self.output_dir, "network.har")
+        with open(path, "w") as f:
+            json.dump(har_data, f, indent=2)
+        print("  📊 HAR network log saved")
+
     def create_directory_structure(self):
         """Create the output directory structure"""
         directories = [
@@ -519,22 +590,27 @@ class UniversalWebsiteCloner:
         print(f"✓ Created directory structure in '{self.output_dir}'")
     
     def fetch_page(self, url=None):
-        """Fetch HTML: Playwright (rendered DOM) first, then HTTP fallback."""
+        """Fetch HTML: Playwright (rendered DOM) first, then HTTP fallback.
+        Returns (html, final_url, capture_dict) where capture_dict has network_hints,
+        fetch_log, framework_routes, sw_registrations, browser_storage, etc.
+        """
         if url is None:
             url = self.url
 
         try:
             from .render import fetch_rendered_html
 
-            print(
-                f"Rendering {url} in browser (Playwright, light+dark theme pass)…"
-            )
-            html, final_url, hints = fetch_rendered_html(url)
+            print(f"Rendering {url} in browser (Playwright, full runtime capture)…")
+            capture = fetch_rendered_html(url)
+            html = capture.get("html")
             if html:
-                print("✓ Got rendered page (dark preference + dark DOM hooks)")
+                print("✓ Got rendered page (dark + light + fetch recording + SW + storage)")
+                hints = capture.get("network_hints", [])
+                fw = capture.get("framework_routes", [])
+                flog = capture.get("fetch_log", [])
                 if hints:
-                    print(f"   ({len(hints)} network responses recorded for asset download)")
-                return html, final_url or url, hints
+                    print(f"   ({len(hints)} network responses, {len(fw)} framework routes, {len(flog)} fetch calls)")
+                return html, capture.get("final_url", url), capture
         except ImportError:
             print(
                 "ℹ️  Playwright not installed — using plain HTTP fetch.\n"
@@ -548,10 +624,10 @@ class UniversalWebsiteCloner:
             response = self.session.get(url, timeout=30)
             response.raise_for_status()
             print("✓ Successfully fetched page")
-            return response.text, response.url, []
+            return response.text, response.url, {"network_hints": [], "fetch_log": [], "framework_routes": [], "sw_registrations": [], "browser_storage": {}}
         except Exception as e:
             print(f"✗ Error fetching page: {e}")
-            return None, None, []
+            return None, None, {"network_hints": [], "fetch_log": [], "framework_routes": [], "sw_registrations": [], "browser_storage": {}}
     
     def _get_file_extension(self, url, content_type=None):
         """Determine file extension from URL or content type"""
@@ -989,8 +1065,8 @@ This cloned website can be used as a template for your future projects:
         # Step 1: Create directory structure
         self.create_directory_structure()
 
-        # Step 2: Fetch main HTML
-        html_content, final_url, network_hints = self.fetch_page()
+        # Step 2: Fetch main HTML with full runtime capture
+        html_content, final_url, capture = self.fetch_page()
         if not html_content:
             print("\n✗ Failed to fetch page. Aborting.")
             return False
@@ -1000,10 +1076,16 @@ This cloned website can be used as a template for your future projects:
             self.base_url = self._get_base_url(final_url)
             print(f"ℹ️  Redirected to: {final_url}")
 
-        # Step 3: Download resources and save homepage
-        resources = self.save_html(html_content, final_url, network_hints, is_homepage=True)
+        # Step 3: Process runtime captures
+        self._save_fetch_responses(capture.get("fetch_log", []))
+        self._save_framework_routes(capture.get("framework_routes", []))
+        self._save_browser_storage(capture.get("browser_storage", {}))
+        self._save_har(capture.get("har"))
 
-        # Step 4: Recursively crawl all internal pages
+        # Step 4: Download resources and save homepage
+        resources = self.save_html(html_content, final_url, capture.get("network_hints", []), is_homepage=True)
+
+        # Step 5: Recursively crawl all internal pages
         if crawl:
             soup = BeautifulSoup(html_content, 'html.parser')
             pages = self._discover_pages(soup, final_url or self.url)

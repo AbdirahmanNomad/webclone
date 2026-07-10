@@ -54,15 +54,22 @@ python -m http.server 8000
 ## ✨ Features
 
 - 🚀 **One command** — `webclone <url> [folder]`
-- 🕷️ **Recursive crawling** — Follows internal links and downloads ALL pages (like wget), not just the homepage
-- 🎭 **Headless browser render** — Snapshots the DOM after JS runs (Playwright)
-- 🌙 **Dark theme aware** — Light + dark passes so dark CSS, fonts, and images are more likely to be captured
-- 📡 **Network-aware downloads** — Saves many assets the page loaded but did not spell out in static HTML
+- 🕷️ **Recursive crawling** — Follows internal links and downloads ALL pages (like wget --mirror)
+- 🎭 **Headless browser render** — Snapshots the DOM after JS runs (Playwright Chromium)
+- 📡 **Fetch/XHR recording** — Captures runtime API calls as JSON files for offline use
+- 🧩 **Framework route interception** — Detects Nuxt `_payload`, Next `_next/data`, Astro islands, SW manifests
+- 📦 **Service Worker capture** — Saves sw.js, workbox bundles, webmanifest
+- 💾 **Browser storage export** — Exports localStorage, sessionStorage, cookies
+- 🔄 **DOM mutation observer** — Waits for SPA content to stabilize before snapshot
+- 📜 **Infinite scroll detection** — Scrolls until height stops growing (blogs, feeds, docs)
+- 🖼️ **Iframe capture** — Clones same-origin iframes inline
+- 📊 **HAR export** — Saves network.har for debugging failed clones
+- 🌙 **Dark theme aware** — Light + dark passes for complete asset capture
 - 📦 **CSS deep crawl** — Follows `url(...)` and `@import` inside stylesheets
-- 🔧 **Build path preservation** — Keeps `_nuxt/`, `_next/`, `cms/` paths intact so dynamic imports still work
-- 🧩 **Module chunk discovery** — Finds `modulepreload` links and lazy-loaded JS chunks from every page
-- 🔧 **Local path rewriting** — Points HTML/CSS at downloaded files where we can
-- 📝 **Per-clone README** — Notes source URL and rough asset counts
+- 🔧 **Build path preservation** — Keeps `_nuxt/`, `_next/`, `cms/` paths intact
+- 🧩 **Module chunk discovery** — Finds `modulepreload` and lazy-loaded JS
+- 🔧 **Local path rewriting** — Points HTML/CSS at downloaded files
+- 📝 **Per-clone README** — Auto-generated docs with asset counts
 - 🎯 **Great for learning** — Inspect real layouts, typography, and structure offline
 
 ---

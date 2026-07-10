@@ -4,6 +4,7 @@ WebClone CLI - Command line interface for website cloning
 """
 
 import sys
+
 from .cloner import UniversalWebsiteCloner
 
 
@@ -17,10 +18,10 @@ def main():
         print("  webclone https://example.com my_site")
         print("\nFor more info: https://github.com/AbdirahmanNomad/webclone")
         sys.exit(1)
-    
+
     url = sys.argv[1]
     output_dir = sys.argv[2] if len(sys.argv) > 2 else None
-    
+
     try:
         cloner = UniversalWebsiteCloner(url, output_dir)
         success = cloner.clone()

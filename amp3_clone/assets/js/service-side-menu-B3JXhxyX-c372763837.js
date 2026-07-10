@@ -1,0 +1,1 @@
+document.addEventListener("DOMContentLoaded",()=>{let t=document.querySelectorAll(".side-menu-service");for(let e of t)e.classList.contains(document.documentElement.classList.value)&&e.classList.add("active")});

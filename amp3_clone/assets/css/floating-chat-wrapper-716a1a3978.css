@@ -1,0 +1,372 @@
+.floatingchat-container-wrap {
+    position: fixed;
+    bottom: 16px;
+    left: 16px;
+    z-index: 99999999 !important;
+    width: 100%;
+    height: 65px;
+    max-width: 180px;
+}
+
+.floatingchat-container {
+    border: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 195px;
+    height: 100%;
+}
+
+.floating-chat-kofi-popup-iframe-closer svg, .floating-chat-kofi-popup-iframe-closer-mobi svg {
+    width: 15px !important;
+    height: 20px !important;
+    overflow: initial !important;
+    vertical-align: initial !important;
+    display: inline !important;
+    padding: 0 !important;
+    margin: initial !important;
+}
+
+.floating-chat-kofi-popup-iframe-closer {
+    line-height: initial;
+    top: -7px;
+    position: absolute;
+    right: -9px;
+    height: 25px;
+    width: 25px;
+    border-radius: 16px;
+    background-color: rgb(255, 255, 255);
+    border: 3px solid #888ea0;
+    font-family: monospace;
+    font-size: 20px;
+    font-variant: full-width;
+    text-align: center;
+    cursor: pointer;
+    z-index: 999;
+    border: none;
+    background: white;
+    box-shadow: 0 4px 20px #bdbdbd;
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+    -ms-border-radius: 16px;
+    -o-border-radius: 16px;
+}
+
+    .floating-chat-kofi-popup-iframe-closer > span {
+       position: relative;
+       top: -1px;
+    }
+
+.floating-chat-kofi-popup-iframe {
+    width: 325px;
+    position: fixed;
+    bottom: 75px;
+    left: 16px;
+    border: none;
+    box-shadow: 0 8px 30px 10px rgba(0,0,0,.25), 0 2px 10px rgba(0,0,0,.25);
+    background-color: #FFF;
+    border-radius: 16px;
+    height: 0px;
+    transition: all 0.6s ease 0s;
+    opacity: 0;
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+    -ms-border-radius: 16px;
+    -o-border-radius: 16px;
+    transform: scale(1);
+}
+
+.floating-chat-kofi-popup-iframe-notice {
+    width: 100%;
+    background-color: #FFF;
+    position: absolute;
+    display:none;
+    bottom: 0;
+    padding: 8px 0;
+    font-size: 14px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    text-align: center;
+    line-height: 30px;
+    border-top: 1px #e0e4e6 solid;
+    font-family: 'Nunito',Quicksand,helvetica neue,Helvetica,Arial,sans-serif;
+    z-index: 999;
+    transition: all 0.3s ease 0s;
+}
+
+.floating-chat-kofi-popup-iframe-container {
+    position: relative;
+}
+
+@media only screen and (max-device-width: 1000px) {
+    .floatingchat-container-wrap {
+        display: none;
+    }
+}
+
+div.floating-chat-kofi-popup-iframe-container > iframe {
+    border: none !important;
+    border-radius: 16px;
+    width: 100%;
+    height: 0;
+}
+
+.cat {
+    padding: 0 8px !important;
+    margin: 0 auto !important;
+}
+
+.floatingchat-container-wrap-mobi {
+    position: fixed;
+    bottom: 16px;
+    left: 16px;
+    z-index: 99999999 !important;
+    width: 100%;
+    height: 65px;
+    max-width: 180px;
+}
+
+.floatingchat-container-mobi {
+    border: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 195px;
+    height: 100%;
+}
+
+.floating-chat-kofi-popup-iframe-closer-mobi {
+    line-height:initial;
+    top: -7px;
+    position: absolute;
+    right: -9px;
+    height: 25px;
+    width: 25px;
+    border-radius: 16px;
+    background-color: rgb(255, 255, 255);
+    border: 3px solid #888ea0;
+    font-family: monospace;
+    font-size: 20px;
+    font-variant: full-width;
+    text-align: center;
+    cursor: pointer;
+    z-index: 999;
+    border: none;
+    background: white;
+    box-shadow: 0 4px 20px #bdbdbd;
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+    -ms-border-radius: 16px;
+    -o-border-radius: 16px;
+}
+
+    .floating-chat-kofi-popup-iframe-closer-mobi > span {
+        padding: 0px 5px;
+    }
+
+
+.floating-chat-kofi-popup-iframe-mobi {
+    width: 325px;
+    position: fixed;
+    bottom: 75px;
+    left: 16px;
+    border: none;
+    box-shadow: 0 8px 30px 10px rgba(0,0,0,.25), 0 2px 10px rgba(0,0,0,.25);
+    background-color: #FFF;
+    border-radius: 16px;
+    height: 0px;
+    transition: all 0.6s ease 0s;
+    opacity: 0;
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+    -ms-border-radius: 16px;
+    -o-border-radius: 16px;
+    transform: scale(1);
+}
+
+.floating-chat-kofi-popup-iframe-notice-mobi {
+    width: 100%;
+    background-color: #FFF;
+    position: absolute;
+    display:none;
+    bottom: 0;
+    padding: 8px 0;
+    font-size: 14px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    text-align: center;
+    line-height: 30px;
+    border-top: 1px #e0e4e6 solid;
+    font-family: 'Nunito',Helvetica,Arial,sans-serif;
+    z-index: 999;
+    transition: all 0.3s ease 0s;
+}
+
+.floating-chat-kofi-popup-iframe-container {
+    position: relative;
+}
+
+div.floating-chat-kofi-popup-iframe-container-mobi > iframe {
+    border: none !important;
+    border-radius: 16px;
+    width: 100%;
+    height: 0;
+}
+
+.floating-chat-kofi-popup-iframe-notice-mobi > .kfds-text-is-link-dark, .floating-chat-kofi-popup-iframe-notice > .kfds-text-is-link-dark {
+    cursor: pointer;
+    color: rgba(67, 75, 87,1) !important;
+    text-decoration: underline;
+    -webkit-text-decoration-color: rgba(67, 75, 87,0) !important;
+    text-decoration-color: rgba(67, 75, 87,0) !important;
+    transition: all ease-in 0.1s;
+}
+
+    .floating-chat-kofi-popup-iframe-notice-mobi > .kfds-text-is-link-dark:hover, .floating-chat-kofi-popup-iframe-notice-mobi > .kfds-text-is-link-dark:focus, .floating-chat-kofi-popup-iframe-notice > .kfds-text-is-link-dark:hover, .floating-chat-kofi-popup-iframe-notice > .kfds-text-is-link-dark:focus {
+        color: rgba(67, 75, 87,1) !important;
+        text-decoration: underline;
+        text-decoration-color: rgba(67, 75, 87,1) !important;
+        -webkit-text-decoration-color: rgba(67, 75, 87,1) !important;
+    }
+
+
+
+
+/* floatingchat-container-wrap-mobi */
+
+@media only screen and (max-device-width: 750px) {
+    .floatingchat-container-wrap-mobi {
+        height: 50px;
+        width: 50%;
+        right: 10px;
+    }
+}
+
+@media only screen and (max-device-width: 550px) {
+    .floatingchat-container-wrap-mobi {
+        height: 50px;
+        width: auto;
+        right: 10px;
+    }
+}
+
+@media only screen and (max-device-width: 350px) {
+    .floatingchat-container-wrap-mobi {
+        height: 50px;
+        width: auto;
+        right: 10px;
+    }
+}
+
+/* floating-chat-kofi-popup-iframe-notice-mobi */
+
+@media only screen and (max-device-width: 750px) {
+    .floating-chat-kofi-popup-iframe-notice-mobi {
+
+        line-height: 30px;
+        font-size: 14px;
+    }
+
+    .floating-chat-kofi-popup-iframe-notice {
+      display:none;
+    }
+}
+
+@media only screen and (max-device-width: 550px) {
+    .floating-chat-kofi-popup-iframe-notice-mobi {
+
+        line-height: 30px;
+        font-size: 14px;
+    }
+}
+
+@media only screen and (max-device-width: 350px) {
+    .floating-chat-kofi-popup-iframe-notice-mobi {
+
+        line-height: 30px;
+        font-size: 14px;
+    }
+}
+
+/* floating-chat-kofi-popup-iframe-mobi */
+
+/* @media only screen and (max-device-width: 750px) {
+    .floating-chat-kofi-popup-iframe-mobi { 
+        right: 1px;
+        width: auto;
+        bottom: 110px;
+        left: 2px;
+    } 
+}
+
+@media only screen and (max-device-width: 550px) {
+    .floating-chat-kofi-popup-iframe-mobi { 
+        right: 1px;
+        width: auto;
+        bottom: 110px;
+        left: 2px;
+    } 
+}
+*/
+@media only screen and (max-device-width: 350px) {
+    .floating-chat-kofi-popup-iframe-mobi {
+        width: 288px;
+    }
+}
+
+/* floating-chat-kofi-popup-iframe-closer-mobi */
+
+@media only screen and (max-device-width: 750px) {
+    .floating-chat-kofi-popup-iframe-closer-mobi {
+        top: -19px;
+        right: -10px;
+        height: 30px;
+        width: 30px;
+        border-radius: 50px;
+    }
+
+        .floating-chat-kofi-popup-iframe-closer-mobi svg {
+            zoom: 1.2;
+        }
+}
+
+@media only screen and (max-device-width: 550px) {
+    .floating-chat-kofi-popup-iframe-closer-mobi {
+        top: -19px;
+        right: -10px;
+        height: 30px;
+        width: 30px;
+        border-radius: 50px;
+    }
+
+        .floating-chat-kofi-popup-iframe-closer-mobi svg {
+            zoom: 1.2;
+        }
+}
+
+@media only screen and (max-device-width: 350px) {
+    .floating-chat-kofi-popup-iframe-closer-mobi {
+        top: -19px;
+        right: -10px;
+        height: 30px;
+        width: 30px;
+        border-radius: 50px;
+    }
+
+        .floating-chat-kofi-popup-iframe-closer-mobi svg {
+            zoom: 1.2;
+        }
+}
+
+
+/* Other */
+
+@media only screen and (min-device-width: 1000px) {
+    .floatingchat-container-wrap-mobi {
+        display: none;
+    }
+}

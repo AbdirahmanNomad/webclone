@@ -1,0 +1,1 @@
+document.addEventListener("DOMContentLoaded",()=>{let t=document.querySelector("#language-button"),e=document.querySelector("#language-list");t.addEventListener("click",function(n){e.classList.contains("hidden")?e.classList.remove("hidden"):e.classList.add("hidden")})});
